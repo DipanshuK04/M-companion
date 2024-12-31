@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+{% block body %}
+  
+    <div class="container-fluid" style="display: flex; margin:0;padding:0 ;width : 100%;height:100%;">
+      <div class="display-dynamic my-3" style="width:70%">
+            <form action='/' method = "POST">
+              <div class="box" style="display:flex">
+                        <div class="form-group mx-2" style = "width:48%">
+                          <label for="departure">From</label>
+                          <input list="departure-options" id="departure" name="departure" style = "display:flex;width:100%" placeholder="Choose Departure Station">
+
+                          <datalist id="departure-options">
+                            <script>
+                              stat.forEach(station => {
+                                document.write(`<option value="${station}"></option>`);
+                              });
+                            </script>
+                          </datalist>    
+                        </div>
+                        <span style='font-size:50px;'>&#8596;</span>
+                        <div class="form-group mx-2" style = "width:48%">
+                          <label for="dest">To</label>
+                          <input list="destination-options" id="dest" name="dest" placeholder="Enter Destination Station" style = "display:flex;width:100%">
+                          <datalist id="destination-options">
+                            <script>
+                              stat.forEach(station => {
+                                document.write(`<option value="${station}"></option>`);
+                              });
+                            </script>
+                          </datalist>
+                        </div>
+              </div>
+              <div class="button mx-auto my-2" style="display:flex;align-items:center;justify-content:center;">
+                <button type="submit" class="btn btn-dark ">GetRoute</button>
+              </div>
+          </form>
+          {% if Detail %}
+            <div class="output-box my-2 mx-2;" style="border: 10px solid blue;" >
+              <h3>Route Details</h3>
+              {% if Detail and Short %}
+                          {% for item in Short %}
+                          {% if  item in stat %}
+                            <button type="button" class="btn btn-secondary" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Top popover">
+                              {{item}}
+                            </button>
+                          {% else %}
+                            {{ item }}
+                          {% endif %}
+                      
+                          {% endfor %}
+                          
+                          
+                  <h3>Intermediate Stations:</h3>
+                  <ul>
+                      {% for item in Detail %}
+                      {% if  item in stat %}
+                      <button type="button" class="btn btn-secondary" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Top popover">
+                        {{item}}
+                      </button>
+                    {% else %}
+                      {{ item }}
+                    {% endif %}
+                      {% endfor %}
+                  </ul>
+
+                  
+              {% endif %}
+            </div>
+            <footer class="footer" style="border: 10px solid green;">
+              <a href="https://www.utsonmobile.indianrail.gov.in/login?2" class="circular-link">Book Now</a>
+              <a href="https://www.trainhelp.in/mumbai-local-railway-station-phone-number/" class="circular-link">Emergency</a>
+              <a href="https://www.mapsofindia.com/maps/mumbai/#google_vignette" class="circular-link">Map</a>
+              <a href="https://www.trainhelp.in/mumbai-local-ac-train/" class="circular-link">AC-TT</a>
+              <a href="https://www.accuweather.com/en/in/mumbai/204842/weather-forecast/204842" class="circular-link">Weather</a>
+              <a href="https://www.tripadvisor.in/Attractions-g304554-Activities-a_allAttractions.true-Mumbai_Maharashtra.html" class="circular-link">Attractions</a>
+            </footer>
+  
+            <style>
+          
+              .footer {
+                display: flex;
+                justify-content: space-around; /* Distributes space evenly */
+                padding: 20px;
+                background-color: #f8f9fa; /* Light grey background */
+                margin-bottom: 2px;
+              }
+              
+              .circular-link {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 80px; /* Adjust size as needed */
+                height: 80px; /* Adjust size as needed */
+                border-radius: 50%; /* Makes the link circular */
+                background-color: #007bff; /* Bootstrap primary blue */
+                color: whitesmoke;
+                text-decoration: none;
+                font-size: 14px;
+                text-align: center;
+                transition: background-color 0.3s;
+              }
+              
+              .circular-link:hover {
+                background-color: #0056b3; /* Darker shade for hover effect */
+              }
+              
+            </style>
+
+          {% else %}
+            
+          <h4>Explore Mumbai</h4>
+            <div class="advertise" style="display:flex;">
+              <div class="card" style="width: 22rem;border:5px solid rgb(118, 116, 116);">
+                <img src={{ url_for('static', filename='gateway-of-india.jpg') }} class="card-img-top img-fluid" style = "height: 100%; width: 100%; object-fit: cover;" alt="Marine-Drive Image">
+
+                <div class="card-body">
+                  <h5 class="card-title">Gateway-of-India</h5>
+                  <p class="card-text">A timeless symbol of India’s rich history and grandeur.Where history and architecture unite – The Gateway of India.</p>
+                  <a href="https://mumbaicity.gov.in/tourist-place/gateway-of-india/" class="btn btn-primary">Read More</a>
+                </div>
+              </div>
+              <div class="card" style="width: 22rem;border:5px solid rgb(118, 116, 116);">
+                <img src={{ url_for('static', filename='Marine-Drive.jpg') }} class="card-img-top img-fluid" style = "height: 100%; width: 100%; object-fit: cover;" alt="Marine-Drive Image">
+                <div class="card-body">
+                  <h5 class="card-title">Marine-Drive</h5>
+                  <p class="card-text">Marine Drive,referred to as the Queen’s Necklace because of its glowing string of street lights that resemble a string of pearls</p>
+                  <a href="https://www.incredibleindia.gov.in/en/maharashtra/mumbai/marine-drive" class="btn btn-primary">Read More</a>
+                </div>
+              </div>
+              <div class="card" style="width: 22rem;border:5px solid rgb(118, 116, 116);">
+                <img src={{ url_for('static', filename='ElephantaCave.png') }} class="card-img-top img-fluid" style = "height: 100%; width: 100%; object-fit: cover;" alt="Marine-Drive Image">
+                <div class="card-body">
+                  <h5 class="card-title">Elephanta-Cave</h5>
+                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                  <a href="https://asi.nic.in/pages/WorldHeritageElephantaCaves" class="btn btn-primary">Read More</a>
+                </div>
+              </div>
+            </div>
+          {% endif %}
+      </div>
+  
+      <div class="map" style = "width:30%; border:8px solid rgb(67, 66, 66) ;border-radius:10px">
+        <img src={{ url_for('static', filename='BOMBAYMAP.jpg') }} class="img-fluid" style = "height: 100%; width: 100%; object-fit: cover;" alt="...">
+      </div>
+    </div>
+
+{% endblock body %}
